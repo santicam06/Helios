@@ -8,7 +8,10 @@
         "area_m2": 19094,
         "outdoor": true,
         "shadow_risk": "low",
-        "rating": "excellent"
+        "rating": "excellent",
+        "neighbourhood": "The Beaches",
+        "demand_level": "high",
+        "demand_score": 8
     },
     {
         "id": 2,
@@ -19,7 +22,10 @@
         "area_m2": 3139,
         "outdoor": true,
         "shadow_risk": "medium",
-        "rating": "small"
+        "rating": "small",
+        "neighbourhood": "Fort York",
+        "demand_level": "high",
+        "demand_score": 9
     },
     {
         "id": 3,
@@ -30,7 +36,10 @@
         "area_m2": 2802,
         "outdoor": true,
         "shadow_risk": "medium",
-        "rating": "small"
+        "rating": "small",
+        "neighbourhood": "East End",
+        "demand_level": "medium",
+        "demand_score": 6
     },
     {
         "id": 4,
@@ -41,18 +50,24 @@
         "area_m2": 4552,
         "outdoor": true,
         "shadow_risk": "low",
-        "rating": "good"
+        "rating": "good",
+        "neighbourhood": "The Beaches",
+        "demand_level": "high",
+        "demand_score": 8
     },
     {
         "id": 5,
         "name": "Humber Bay Park Green P",
         "address": "225 Humber Bay Park Rd W, Etobicoke",
-        "Lat": 43.6226,
-        "Lng": -79.4781,
+        "lat": 43.6226,
+        "lng": -79.4781,
         "area_m2": 16830,
         "outdoor": true,
         "shadow_risk": "low",
-        "rating": "excellent"
+        "rating": "excellent",
+        "neighbourhood": "Mimico",
+        "demand_level": "medium",
+        "demand_score": 7
     },
     {
         "id": 6,
@@ -63,6 +78,9 @@
         "area_m2": 5649,
         "outdoor": true,
         "shadow_risk": "medium",
-        "rating": "medium"
+        "rating": "medium",
+        "neighbourhood": "Roncesvalles",
+        "demand_level": "high",
+        "demand_score": 8
     }
 ]
