@@ -1,0 +1,68 @@
+[
+    {
+        "id": 1,
+        "name": "Woodbine Beach Green P",
+        "address": "Lake Shore Blvd E & Coxwell Ave, Toronto",
+        "lat": 43.6657,
+        "lng": -79.3145,
+        "area_m2": 19094,
+        "outdoor": true,
+        "shadow_risk": "low",
+        "rating": "excellent"
+    },
+    {
+        "id": 2,
+        "name": "Green P Carpark 271",
+        "address": "800 Fleet St, Toronto",
+        "lat": 43.63955,
+        "lng": -79.40215,
+        "area_m2": 3139,
+        "outdoor": true,
+        "shadow_risk": "medium",
+        "rating": "small"
+    },
+    {
+        "id": 3,
+        "name": "Ashbridges Bay Green P",
+        "address": "Ashbridges Bay, Toronto",
+        "lat": 43.6629,
+        "lng": -79.3079,
+        "area_m2": 2802,
+        "outdoor": true,
+        "shadow_risk": "medium",
+        "rating": "small"
+    },
+    {
+        "id": 4,
+        "name": "Woodbine Beach South Green P",
+        "address": "Lake Shore Blvd E, Toronto",
+        "lat": 43.6629,
+        "lng": -79.3117,
+        "area_m2": 4552,
+        "outdoor": true,
+        "shadow_risk": "low",
+        "rating": "good"
+    },
+    {
+        "id": 5,
+        "name": "Humber Bay Park Green P",
+        "address": "225 Humber Bay Park Rd W, Etobicoke",
+        "Lat": 43.6226,
+        "Lng": -79.4781,
+        "area_m2": 16830,
+        "outdoor": true,
+        "shadow_risk": "low",
+        "rating": "excellent"
+    },
+    {
+        "id": 6,
+        "name": "Sunnyside Beach Green P",
+        "address": "1675 Lake Shore Blvd W, Toronto",
+        "lat": 43.6372,
+        "lng": -79.4554,
+        "area_m2": 5649,
+        "outdoor": true,
+        "shadow_risk": "medium",
+        "rating": "medium"
+    }
+]
