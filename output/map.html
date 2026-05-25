@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_1ad65f6d3c72bf0db16ac9bb4432a984 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div style="position: fixed; bottom: 30px; left: 30px; z-index: 1000;
+     background-color: white; padding: 15px; border-radius: 8px;
+     border: 2px solid #ccc; font-family: Arial; font-size: 13px">
+    <b>Solar Opportunity Score</b><br><br>
+    <span style="color:#2ecc71">●</span> Excellent (300k+)<br>
+    <span style="color:#f39c12">●</span> Good (100k - 300k)<br>
+    <span style="color:#e74c3c">●</span> Lower Priority (&lt;100k)<br>
+    <br>
+    <small>Circle size = relative score</small>
+</div>
+    
+            <div class="folium-map" id="map_1ad65f6d3c72bf0db16ac9bb4432a984" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_1ad65f6d3c72bf0db16ac9bb4432a984 = L.map(
+                "map_1ad65f6d3c72bf0db16ac9bb4432a984",
+                {
+                    center: [43.645, -79.39],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_735da1ea91a0409cd4e28f9e0f2a9db1 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_735da1ea91a0409cd4e28f9e0f2a9db1.addTo(map_1ad65f6d3c72bf0db16ac9bb4432a984);
+        
+    
+            var circle_marker_c52832ec4826f2e7dfb48faeba524c7d = L.circleMarker(
+                [43.6657, -79.3145],
+                {"bubblingMouseEvents": true, "color": "#2ecc71", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20, "stroke": true, "weight": 2}
+            ).addTo(map_1ad65f6d3c72bf0db16ac9bb4432a984);
+        
+    
+        var popup_419362e9be0e075fd3d6e384d7e3fa88 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_af5f46f841aed0c4aad99a6128976d77 = $(`<div id="html_af5f46f841aed0c4aad99a6128976d77" style="width: 100.0%; height: 100.0%;">     <div style="width:260px; font-family:Arial; padding:5px">         <h3 style="color:#2c7a2c; margin-bottom:8px">Woodbine Beach Green P</h3>         <table style="width:100%; font-size:13px">             <tr><td><b>Neighbourhood</b></td><td>The Beaches</td></tr>             <tr><td><b>Area</b></td><td>19,094 m²</td></tr>             <tr><td><b>Solar Panels</b></td><td>6,683</td></tr>             <tr><td><b>Energy/Year</b></td><td>3,902,814 kWh</td></tr>             <tr><td><b>Revenue/Year</b></td><td>$507,366</td></tr>             <tr><td><b>Install Cost</b></td><td>$6,682,900</td></tr>             <tr><td><b>Payback</b></td><td>13.2 years</td></tr>             <tr><td><b>Demand Score</b></td><td>8/10</td></tr>         </table>         <hr>         <b style="color:#2c7a2c; font-size:14px">Score: 379,156</b>     </div>     </div>`)[0];
+                popup_419362e9be0e075fd3d6e384d7e3fa88.setContent(html_af5f46f841aed0c4aad99a6128976d77);
+            
+        
+
+        circle_marker_c52832ec4826f2e7dfb48faeba524c7d.bindPopup(popup_419362e9be0e075fd3d6e384d7e3fa88)
+        ;
+
+        
+    
+    
+            circle_marker_c52832ec4826f2e7dfb48faeba524c7d.bindTooltip(
+                `<div>
+                     #1 Woodbine Beach Green P | $507,366/yr
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_560aab7038d668c32ee5528240dbb47f = L.circleMarker(
+                [43.6226, -79.4781],
+                {"bubblingMouseEvents": true, "color": "#2ecc71", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20, "stroke": true, "weight": 2}
+            ).addTo(map_1ad65f6d3c72bf0db16ac9bb4432a984);
+        
+    
+        var popup_2cc4effc2eaf81d60cb08720b49b7231 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_448f720763a736f1066f5df6b220f4de = $(`<div id="html_448f720763a736f1066f5df6b220f4de" style="width: 100.0%; height: 100.0%;">     <div style="width:260px; font-family:Arial; padding:5px">         <h3 style="color:#2c7a2c; margin-bottom:8px">Humber Bay Park Green P</h3>         <table style="width:100%; font-size:13px">             <tr><td><b>Neighbourhood</b></td><td>Mimico</td></tr>             <tr><td><b>Area</b></td><td>16,830 m²</td></tr>             <tr><td><b>Solar Panels</b></td><td>5,890</td></tr>             <tr><td><b>Energy/Year</b></td><td>3,440,052 kWh</td></tr>             <tr><td><b>Revenue/Year</b></td><td>$447,207</td></tr>             <tr><td><b>Install Cost</b></td><td>$5,890,500</td></tr>             <tr><td><b>Payback</b></td><td>13.2 years</td></tr>             <tr><td><b>Demand Score</b></td><td>7/10</td></tr>         </table>         <hr>         <b style="color:#2c7a2c; font-size:14px">Score: 334,045</b>     </div>     </div>`)[0];
+                popup_2cc4effc2eaf81d60cb08720b49b7231.setContent(html_448f720763a736f1066f5df6b220f4de);
+            
+        
+
+        circle_marker_560aab7038d668c32ee5528240dbb47f.bindPopup(popup_2cc4effc2eaf81d60cb08720b49b7231)
+        ;
+
+        
+    
+    
+            circle_marker_560aab7038d668c32ee5528240dbb47f.bindTooltip(
+                `<div>
+                     #2 Humber Bay Park Green P | $447,207/yr
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d8a60c58c2ed8fa3068c5ca5c19c1fdd = L.circleMarker(
+                [43.6372, -79.4554],
+                {"bubblingMouseEvents": true, "color": "#f39c12", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f39c12", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14, "stroke": true, "weight": 2}
+            ).addTo(map_1ad65f6d3c72bf0db16ac9bb4432a984);
+        
+    
+        var popup_511098141e0198e74179b3f2899bf836 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_225c4bde9c6938b64cefa000b4b056d9 = $(`<div id="html_225c4bde9c6938b64cefa000b4b056d9" style="width: 100.0%; height: 100.0%;">     <div style="width:260px; font-family:Arial; padding:5px">         <h3 style="color:#2c7a2c; margin-bottom:8px">Sunnyside Beach Green P</h3>         <table style="width:100%; font-size:13px">             <tr><td><b>Neighbourhood</b></td><td>Roncesvalles</td></tr>             <tr><td><b>Area</b></td><td>5,649 m²</td></tr>             <tr><td><b>Solar Panels</b></td><td>1,977</td></tr>             <tr><td><b>Energy/Year</b></td><td>1,154,656 kWh</td></tr>             <tr><td><b>Revenue/Year</b></td><td>$150,105</td></tr>             <tr><td><b>Install Cost</b></td><td>$1,977,150</td></tr>             <tr><td><b>Payback</b></td><td>13.2 years</td></tr>             <tr><td><b>Demand Score</b></td><td>8/10</td></tr>         </table>         <hr>         <b style="color:#2c7a2c; font-size:14px">Score: 129,074</b>     </div>     </div>`)[0];
+                popup_511098141e0198e74179b3f2899bf836.setContent(html_225c4bde9c6938b64cefa000b4b056d9);
+            
+        
+
+        circle_marker_d8a60c58c2ed8fa3068c5ca5c19c1fdd.bindPopup(popup_511098141e0198e74179b3f2899bf836)
+        ;
+
+        
+    
+    
+            circle_marker_d8a60c58c2ed8fa3068c5ca5c19c1fdd.bindTooltip(
+                `<div>
+                     #3 Sunnyside Beach Green P | $150,105/yr
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ba9dbfd8447cc89560f4f19075745203 = L.circleMarker(
+                [43.6629, -79.3117],
+                {"bubblingMouseEvents": true, "color": "#f39c12", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f39c12", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14, "stroke": true, "weight": 2}
+            ).addTo(map_1ad65f6d3c72bf0db16ac9bb4432a984);
+        
+    
+        var popup_fc4234efc935cce1e923fa19080f2805 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3a69741e3d33348e44b24abb25c2654c = $(`<div id="html_3a69741e3d33348e44b24abb25c2654c" style="width: 100.0%; height: 100.0%;">     <div style="width:260px; font-family:Arial; padding:5px">         <h3 style="color:#2c7a2c; margin-bottom:8px">Woodbine Beach South Green P</h3>         <table style="width:100%; font-size:13px">             <tr><td><b>Neighbourhood</b></td><td>The Beaches</td></tr>             <tr><td><b>Area</b></td><td>4,552 m²</td></tr>             <tr><td><b>Solar Panels</b></td><td>1,593</td></tr>             <tr><td><b>Energy/Year</b></td><td>930,429 kWh</td></tr>             <tr><td><b>Revenue/Year</b></td><td>$120,956</td></tr>             <tr><td><b>Install Cost</b></td><td>$1,593,200</td></tr>             <tr><td><b>Payback</b></td><td>13.2 years</td></tr>             <tr><td><b>Demand Score</b></td><td>8/10</td></tr>         </table>         <hr>         <b style="color:#2c7a2c; font-size:14px">Score: 108,669</b>     </div>     </div>`)[0];
+                popup_fc4234efc935cce1e923fa19080f2805.setContent(html_3a69741e3d33348e44b24abb25c2654c);
+            
+        
+
+        circle_marker_ba9dbfd8447cc89560f4f19075745203.bindPopup(popup_fc4234efc935cce1e923fa19080f2805)
+        ;
+
+        
+    
+    
+            circle_marker_ba9dbfd8447cc89560f4f19075745203.bindTooltip(
+                `<div>
+                     #4 Woodbine Beach South Green P | $120,956/yr
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e33ceb750f122362607695e91a813ed7 = L.circleMarker(
+                [43.63955, -79.40215],
+                {"bubblingMouseEvents": true, "color": "#e74c3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9, "stroke": true, "weight": 2}
+            ).addTo(map_1ad65f6d3c72bf0db16ac9bb4432a984);
+        
+    
+        var popup_61c8a69fef09908b1e62ca1d43d10c7c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f935929af775a23008dccd1daf125969 = $(`<div id="html_f935929af775a23008dccd1daf125969" style="width: 100.0%; height: 100.0%;">     <div style="width:260px; font-family:Arial; padding:5px">         <h3 style="color:#2c7a2c; margin-bottom:8px">Green P Carpark 271</h3>         <table style="width:100%; font-size:13px">             <tr><td><b>Neighbourhood</b></td><td>Fort York</td></tr>             <tr><td><b>Area</b></td><td>3,139 m²</td></tr>             <tr><td><b>Solar Panels</b></td><td>1,099</td></tr>             <tr><td><b>Energy/Year</b></td><td>641,612 kWh</td></tr>             <tr><td><b>Revenue/Year</b></td><td>$83,410</td></tr>             <tr><td><b>Install Cost</b></td><td>$1,098,650</td></tr>             <tr><td><b>Payback</b></td><td>13.2 years</td></tr>             <tr><td><b>Demand Score</b></td><td>9/10</td></tr>         </table>         <hr>         <b style="color:#2c7a2c; font-size:14px">Score: 85,387</b>     </div>     </div>`)[0];
+                popup_61c8a69fef09908b1e62ca1d43d10c7c.setContent(html_f935929af775a23008dccd1daf125969);
+            
+        
+
+        circle_marker_e33ceb750f122362607695e91a813ed7.bindPopup(popup_61c8a69fef09908b1e62ca1d43d10c7c)
+        ;
+
+        
+    
+    
+            circle_marker_e33ceb750f122362607695e91a813ed7.bindTooltip(
+                `<div>
+                     #5 Green P Carpark 271 | $83,410/yr
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_367113fe594032943e505576f94a830f = L.circleMarker(
+                [43.6629, -79.3079],
+                {"bubblingMouseEvents": true, "color": "#e74c3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9, "stroke": true, "weight": 2}
+            ).addTo(map_1ad65f6d3c72bf0db16ac9bb4432a984);
+        
+    
+        var popup_378b5e14c9a6815d193aed8f772467f5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_06f848f88377be89b727b929c8fa8173 = $(`<div id="html_06f848f88377be89b727b929c8fa8173" style="width: 100.0%; height: 100.0%;">     <div style="width:260px; font-family:Arial; padding:5px">         <h3 style="color:#2c7a2c; margin-bottom:8px">Ashbridges Bay Green P</h3>         <table style="width:100%; font-size:13px">             <tr><td><b>Neighbourhood</b></td><td>East End</td></tr>             <tr><td><b>Area</b></td><td>2,802 m²</td></tr>             <tr><td><b>Solar Panels</b></td><td>981</td></tr>             <tr><td><b>Energy/Year</b></td><td>572,729 kWh</td></tr>             <tr><td><b>Revenue/Year</b></td><td>$74,455</td></tr>             <tr><td><b>Install Cost</b></td><td>$980,700</td></tr>             <tr><td><b>Payback</b></td><td>13.2 years</td></tr>             <tr><td><b>Demand Score</b></td><td>6/10</td></tr>         </table>         <hr>         <b style="color:#2c7a2c; font-size:14px">Score: 70,118</b>     </div>     </div>`)[0];
+                popup_378b5e14c9a6815d193aed8f772467f5.setContent(html_06f848f88377be89b727b929c8fa8173);
+            
+        
+
+        circle_marker_367113fe594032943e505576f94a830f.bindPopup(popup_378b5e14c9a6815d193aed8f772467f5)
+        ;
+
+        
+    
+    
+            circle_marker_367113fe594032943e505576f94a830f.bindTooltip(
+                `<div>
+                     #6 Ashbridges Bay Green P | $74,455/yr
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>
