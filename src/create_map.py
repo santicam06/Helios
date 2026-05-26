@@ -76,6 +76,7 @@ legend_html = """
 """
 m.get_root().html.add_child(folium.Element(legend_html))
 
-# Save map
-m.save("output/map.html")
-print("Map saved to output/map.html")
+# Save map with explicit UTF-8 encoding
+with open("output/map.html", "w", encoding="utf-8") as f:
+    f.write(m.get_root().render())
+print("Map saved to output/map.html with UTF-8 encoding.")
