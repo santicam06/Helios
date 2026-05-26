@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.env
+.venv
+
+# IDEs / Editors
+.vscode/
+.idea/
+
+# Gemini CLI
+GEMINI.md
+
+# Build / Output
+dist/
+build/
+*.egg-info/
+output/
