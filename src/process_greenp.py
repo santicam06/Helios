@@ -1,7 +1,7 @@
 import json
 
 # Constants
-SPACE_AREA_M2 = 15
+SPACE_AREA_M2 = 27
 DEFAULT_SHADOW_RISK = "medium"
 DEFAULT_DEMAND_SCORE = 7
 DEFAULT_DEMAND_LEVEL = "medium"
