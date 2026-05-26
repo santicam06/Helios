@@ -71,7 +71,7 @@ legend_html = """
     <span style="color:#f39c12">●</span> Good (100k - 300k)<br>
     <span style="color:#e74c3c">●</span> Lower Priority (&lt;100k)<br>
     <br>
-    <small>Circle size = relative score</small>
+    <small>Bigger circle = better investment</small>
 </div>
 """
 m.get_root().html.add_child(folium.Element(legend_html))
