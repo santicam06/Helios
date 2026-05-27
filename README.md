@@ -1,6 +1,6 @@
 # Helios 🌞
 
-A geographic analysis tool that identifies the top Green P parking locations 
+A geographic analysis tool that identifies the top potential Green P parking locations 
 in Toronto for solar panel installation.
 
 <a href="https://helios-tool.vercel.app/"> <img width="640" height="367" alt="Image" src="https://github.com/user-attachments/assets/de497214-8514-454d-85ca-f30634237771" /> </a>
