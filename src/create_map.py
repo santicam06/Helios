@@ -1,5 +1,7 @@
 import json
+import math
 import folium
+from folium.plugins import MarkerCluster, HeatMap
 
 # Load results
 with open("data/results.json") as f:
@@ -23,6 +25,27 @@ def get_radius(final_score):
     else:
         return 9
 
+# Dynamic reasons based on real data
+def get_reasons(loc):
+    reasons = []
+    if loc["area_m2"] >= 15000:
+        reasons.append("Very large lot — maximum energy output")
+    elif loc["area_m2"] >= 8000:
+        reasons.append("Large lot area — high energy output")
+    if loc["demand_score"] >= 8:
+        reasons.append("High neighbourhood energy demand")
+    elif loc["demand_score"] >= 6:
+        reasons.append("Moderate neighbourhood demand")
+    if loc["revenue_year"] >= 500000:
+        reasons.append("Excellent revenue potential")
+    elif loc["revenue_year"] >= 200000:
+        reasons.append("Strong revenue potential")
+    if loc["final_score"] >= 300000:
+        reasons.append("Top investment opportunity")
+    if not reasons:
+        reasons.append("Lower priority — consider larger locations first")
+    return reasons
+
 # Create map centered on Toronto
 m = folium.Map(
     location=[43.6450, -79.3900],
@@ -30,13 +53,62 @@ m = folium.Map(
     tiles="CartoDB positron"
 )
 
+# Demand hotspots data
+demand_hotspots = [
+    {"name": "Downtown Core",           "lat": 43.6532, "lng": -79.3832, "intensity": 0.95},
+    {"name": "North York Centre",       "lat": 43.7615, "lng": -79.4111, "intensity": 0.85},
+    {"name": "Scarborough Town Centre", "lat": 43.7764, "lng": -79.2318, "intensity": 0.80},
+    {"name": "Etobicoke Centre",        "lat": 43.6205, "lng": -79.5132, "intensity": 0.75},
+    {"name": "York Mills",              "lat": 43.7445, "lng": -79.4009, "intensity": 0.70},
+    {"name": "Finch & Jane",            "lat": 43.7574, "lng": -79.5197, "intensity": 0.75},
+    {"name": "Kennedy & Eglinton",      "lat": 43.7320, "lng": -79.2630, "intensity": 0.70},
+    {"name": "Danforth",                "lat": 43.6773, "lng": -79.3498, "intensity": 0.72},
+    {"name": "Liberty Village",         "lat": 43.6420, "lng": -79.4150, "intensity": 0.78},
+    {"name": "Weston",                  "lat": 43.7070, "lng": -79.5290, "intensity": 0.65},
+]
+
+def expand_hotspot(name, lat, lng, intensity, count=15, spread=0.025):
+    points = [[lat, lng, intensity]]  # center
+    # inner ring
+    for i in range(count):
+        angle = (360 / count) * i
+        dlat = (spread * 0.4) * math.cos(math.radians(angle))
+        dlng = (spread * 0.4) * math.sin(math.radians(angle))
+        points.append([lat + dlat, lng + dlng, intensity * 0.85])
+    # outer ring
+    for i in range(count):
+        angle = (360 / count) * i
+        dlat = spread * math.cos(math.radians(angle))
+        dlng = spread * math.sin(math.radians(angle))
+        points.append([lat + dlat, lng + dlng, intensity * 0.5])
+    return points
+
+# Build heatmap data
+heat_data = []
+for h in demand_hotspots:
+    heat_data.extend(expand_hotspot(h["name"], h["lat"], h["lng"], h["intensity"]))
+
+# Add HeatMap layer — blue/cyan gradient only
+HeatMap(
+    heat_data,
+    radius=59,
+    blur=40,
+    min_opacity=0.2,
+    gradient={0.0: "#003366", 0.5: "#0066cc", 0.8: "#00ccff", 1.0: "#00ffff"}
+).add_to(m)
+
+# MarkerCluster — disable clustering when zoomed in close
+cluster = MarkerCluster(disableClusteringAtZoom=13).add_to(m)
+
 # Add markers
 for i, loc in enumerate(locations):
+    reasons = get_reasons(loc)
+    reasons_html = "".join([f"• {r}<br>" for r in reasons])
+
     popup_html = f"""
-    <div style="width:260px; font-family:Arial; padding:5px">
+    <div style="width:270px; font-family:Arial; padding:5px">
         <h3 style="color:#2c7a2c; margin-bottom:8px">{loc['name']}</h3>
         <table style="width:100%; font-size:13px">
-            <tr><td><b>Neighbourhood</b></td><td>{loc['neighbourhood']}</td></tr>
             <tr><td><b>Area</b></td><td>{loc['area_m2']:,} m²</td></tr>
             <tr><td><b>Solar Panels</b></td><td>{loc['num_panels']:,}</td></tr>
             <tr><td><b>Energy/Year</b></td><td>{loc['energy_kwh_year']:,} kWh</td></tr>
@@ -46,10 +118,14 @@ for i, loc in enumerate(locations):
             <tr><td><b>Demand Score</b></td><td>{loc['demand_score']}/10</td></tr>
         </table>
         <hr>
+        <b style="font-size:12px">Why this location?</b><br>
+        <span style="font-size:12px; color:#555">{reasons_html}</span>
+        <hr>
         <b style="color:#2c7a2c; font-size:14px">Score: {loc['final_score']:,}</b>
     </div>
     """
-    marker = folium.CircleMarker(
+
+    folium.CircleMarker(
         location=[loc["lat"], loc["lng"]],
         radius=get_radius(loc['final_score']),
         color=get_color(loc['final_score']),
@@ -59,15 +135,12 @@ for i, loc in enumerate(locations):
         weight=2,
         popup=folium.Popup(popup_html, max_width=300),
         tooltip=f"#{i+1} {loc['name']} | ${loc['revenue_year']:,}/yr"
-    ).add_to(m)
-    
-    # We will attach the click listener globally for all circle markers instead of per-marker
-    marker.add_to(m)
+    ).add_to(cluster)
 
-# Sort locations by energy yield descending for the list
+# Sort locations by energy yield descending for the sidebar list
 locations_sorted = sorted(locations, key=lambda x: x['energy_kwh_year'], reverse=True)
 
-# Generate list items HTML
+# Generate sidebar list items HTML
 list_items_html = ""
 for loc in locations_sorted:
     list_items_html += f"""
@@ -77,10 +150,9 @@ for loc in locations_sorted:
     </div>
     """
 
-# Add UI elements (Home Button and Location Sidebar)
+# UI elements — sidebar, legend, dropdown, home button
 ui_html = f"""
 <style>
-    /* Legend Styles */
     .map-legend {{
         position: fixed;
         bottom: 30px;
@@ -93,7 +165,6 @@ ui_html = f"""
         font-family: Arial;
         font-size: 13px;
     }}
-    /* Sidebar Styles */
     .sidebar {{
         position: fixed;
         top: 20px;
@@ -224,6 +295,9 @@ ui_html = f"""
     <span style="color:#f39c12">●</span> Good (100k - 300k)<br>
     <span style="color:#e74c3c">●</span> Lower Priority (&lt;100k)<br>
     <br>
+    <b>Electricity Demand</b><br>
+    <span style="color:#00ffff">●</span> High demand zone<br>
+    <br>
     <small style="font-size: 13px;">Bigger circle = better investment</small>
 </div>
 
@@ -252,12 +326,11 @@ ui_html = f"""
 <script>
     var currentHighlight = null;
 
-    // Attach click listeners to all marker layers after the map is fully initialized
     window.addEventListener('load', function() {{
         var map_element = document.querySelector('.folium-map');
         var map_id = map_element.id;
         var map_instance = window[map_id];
-        
+
         map_instance.eachLayer(function(layer) {{
             if (layer.options && layer.options.radius) {{
                 layer.on('click', function(e) {{
@@ -275,27 +348,21 @@ ui_html = f"""
         var map_element = document.querySelector('.folium-map');
         var map_id = map_element.id;
         var map_instance = window[map_id];
-        
+
         map_instance.flyTo([lat, lng], 16);
-        
-        // Reset previous highlight
+
         if (currentHighlight && currentHighlight !== layer) {{
             currentHighlight.setStyle({{
                 weight: 2,
                 color: currentHighlight.options.originalColor || currentHighlight.options.color
             }});
         }}
-        
-        // Apply new highlight
+
         if (!layer.options.originalColor) {{
             layer.options.originalColor = layer.options.color;
         }}
-        
-        layer.setStyle({{
-            weight: 5,
-            color: '#FFD700' // Gold
-        }});
-        
+
+        layer.setStyle({{ weight: 5, color: '#FFD700' }});
         currentHighlight = layer;
         layer.bringToFront();
     }}
@@ -304,17 +371,16 @@ ui_html = f"""
         var map_element = document.querySelector('.folium-map');
         var map_id = map_element.id;
         var map_instance = window[map_id];
-        
+
         map_instance.eachLayer(function(layer) {{
             if (layer.options && layer.options.radius) {{
                 var latlng = layer.getLatLng();
-                // Use a small tolerance for coordinate matching due to precision
                 if (Math.abs(latlng.lat - lat) < 0.00001 && Math.abs(latlng.lng - lng) < 0.00001) {{
                     highlightAndZoom(layer, lat, lng);
                 }}
             }}
         }});
-        
+
         if (window.innerWidth < 768) {{
             toggleSidebar();
         }}
@@ -322,9 +388,9 @@ ui_html = f"""
 </script>
 """
 
-m.get_root().html.add_child(folium.Element(ui_html))  # type: ignore 
+m.get_root().html.add_child(folium.Element(ui_html))
 
-# Save map with explicit UTF-8 encoding
+# Save map
 with open("output/map.html", "w", encoding="utf-8") as f:
     f.write(m.get_root().render())
-print("Map saved to output/map.html with UTF-8 encoding.")
+print("Map saved to output/map.html")
