@@ -3,6 +3,8 @@
 A geographic analysis tool that identifies the top Green P parking locations 
 in Toronto for solar panel installation.
 
+<a href="https://helios-tool.vercel.app/"> <img width="640" height="367" alt="Image" src="https://github.com/user-attachments/assets/de497214-8514-454d-85ca-f30634237771" /> </a>
+
 ## What it does
 - Analyzes all 104 surface Green P parking lots in Toronto
 - Calculates solar energy potential based on lot size and Toronto sun data
