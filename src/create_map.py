@@ -46,11 +46,11 @@ def get_reasons(loc):
         reasons.append("Lower priority — consider larger locations first")
     return reasons
 
-# Create map centered on Toronto
+# Create map centered on Toronto — no default tiles, we inject OpenFreeMap via MapLibre GL
 m = folium.Map(
     location=[43.6450, -79.3900],
     zoom_start=12,
-    tiles="CartoDB positron"
+    tiles=None
 )
 
 # Demand hotspots data
@@ -385,7 +385,55 @@ ui_html = f"""
 
 m.get_root().html.add_child(folium.Element(ui_html))
 
+# Render the map HTML
+html_content = m.get_root().render()
+
+# Inject MapLibre GL CSS+JS AFTER Leaflet (which is loaded via cdn.jsdelivr.net)
+# This ensures Leaflet is available when the maplibre-gl-leaflet plugin loads
+maplibre_scripts = (
+    '<link href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet" />\n'
+    '<script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>\n'
+    '<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet/leaflet-maplibre-gl.js"></script>\n'
+)
+html_content = html_content.replace("</head>", maplibre_scripts + "</head>")
+
+# Inject the MapLibre GL init script before </html> to ensure everything is loaded
+maplibre_init = """
+<script>
+window.addEventListener('load', function() {
+    var mapEl = document.querySelector('.folium-map');
+    var mapInstance = window[mapEl.id];
+
+    var glLayer = L.maplibreGL({
+        style: 'https://tiles.openfreemap.org/styles/positron',
+        transformStyle: function(previousStyle) {
+            if (previousStyle && previousStyle.layers) {
+                previousStyle.layers = previousStyle.layers.filter(function(layer) {
+                    var id = layer.id || '';
+                    if (id.indexOf('poi') !== -1) return false;
+                    return true;
+                });
+            }
+            return previousStyle;
+        }
+    });
+
+    glLayer.addTo(mapInstance);
+
+    // Bring all existing Leaflet overlays to front above the GL basemap
+    setTimeout(function() {
+        mapInstance.eachLayer(function(layer) {
+            if (layer !== glLayer && layer.bringToFront) {
+                layer.bringToFront();
+            }
+        });
+    }, 500);
+});
+</script>
+"""
+html_content = html_content.replace("</html>", maplibre_init + "\n</html>")
+
 # Save map
 with open("output/map.html", "w", encoding="utf-8") as f:
-    f.write(m.get_root().render())
+    f.write(html_content)
 print("Map saved to output/map.html")
